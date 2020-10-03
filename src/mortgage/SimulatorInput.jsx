@@ -21,7 +21,7 @@ import {
 
 import RepaymentLabel from "./RepaymentLabel"
 
-import { generateDays } from "./homeloan"
+import { generateDays } from "./mortgage"
 
 const SimulatorInput = (props) => {
     const [isSimulating, setSimulating] = useState(false)

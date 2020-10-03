@@ -64,7 +64,7 @@ const TopNavBar = (props) => {
 
     return (
         <Navbar expand="lg">
-            <Navbar.Brand style={{ "fontFamily": "Kreon" }} href="/">Home Loan Simulator</Navbar.Brand>
+            <Navbar.Brand style={{ "fontFamily": "Kreon" }} href="/">Mortgage Simulator</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

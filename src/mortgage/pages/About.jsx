@@ -5,9 +5,9 @@ import Button from '../../../node_modules/react-bootstrap/Button'
 
 const commitSha = process.env.GIT_SHA
 
-const emailSubject = `Home Loan Simulator enquiry (Build ${commitSha})`
+const emailSubject = `Mortgage Simulator enquiry (Build ${commitSha})`
 const emailBody = `Hello Martin!%0a%0a[Please enter your question/comment/suggestion/bug details here]%0a%0aRegards,%0a[Your name]`
-const email = `mailto:homeloansimulator@gmail.com?subject=${emailSubject}&body=${emailBody}`
+const email = `mailto:mortgagesim@gmail.com?subject=${emailSubject}&body=${emailBody}`
 
 console.log(process.env.PUBLIC_URL)
 

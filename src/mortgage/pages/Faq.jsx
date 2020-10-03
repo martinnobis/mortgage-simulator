@@ -28,7 +28,7 @@ const Faq = () => {
 
             <h2>What if my bank charges interest differently?</h2>
             <p>
-                Home Loan Simulator's goal is to become a useful tool for everybody no matter where they're from or how their particular bank operates.
+                Mortgage Simulator's goal is to become a useful tool for everybody no matter where they're from or how their particular bank operates.
                 New features in the development pipeline will allow you to change how and when interest is accrued and charged.
                 If you'd like to contribute to this feature, then please <a href={emailMailto}>send us an email</a>, your help would be greatly appreciated.
                 </p>

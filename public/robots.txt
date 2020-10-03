@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
-Sitemap: https://homeloansimulator.com/sitemap.xml
+Sitemap: https://mortgage-simulator.com/sitemap.xml
 User-agent: *
 Disallow:

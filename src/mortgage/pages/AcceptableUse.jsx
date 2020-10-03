@@ -8,7 +8,7 @@ const AcceptableUse = () => {
             <h1>Acceptable use</h1>
             <p>
                 The acceptable use policy ("Acceptable Use Policy", "AUP", "Policy") is an agreement between the Website Operator ("Website Operator", "us", "we" or "our") and you ("User", "you" or "your").
-                This Policy sets forth the general guidelines and acceptable and prohibited uses of the homeloansimulator.com website and any of its products or services (collectively, "Website", "Site" or "Services").
+                This Policy sets forth the general guidelines and acceptable and prohibited uses of the mortgage-simulator.com website and any of its products or services (collectively, "Website", "Site" or "Services").
             </p>
 
             <h2>Prohibited activities and uses</h2>

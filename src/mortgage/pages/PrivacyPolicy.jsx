@@ -7,7 +7,7 @@ const PrivacyPolicy = () => {
         <div>
             <h1>Privacy policy</h1>
             <p>
-                This page informs you ("User", "you" or "your") of the policy the Website Operator ("Website Operator", "us", "we" or "our") has set regarding the collection, use and disclosure of Personal Information received from users of this website homeloansimulator.com (the "Site").
+                This page informs you ("User", "you" or "your") of the policy the Website Operator ("Website Operator", "us", "we" or "our") has set regarding the collection, use and disclosure of Personal Information received from users of this website mortgage-simulator.com (the "Site").
                 We use your Personal Information only for providing and improving the Site.
                 By using the Site, you agree to the collection and use of information in accordance with this policy.
             </p>
@@ -54,7 +54,7 @@ const PrivacyPolicy = () => {
             <h2 id="social-media">Links and social media plugins</h2>
             <p>
                 This Site may also offer you the ability to interact with social plugins from social media sites, such as Twitter (twitter.com), Facebook (facebook.com) and Reddit (reddit.com).
-                These social media sites may receive data when you visit a website, such as where you have come from (homeloansimulator.com).
+                These social media sites may receive data when you visit a website, such as where you have come from (mortgage-simulator.com).
                 In some cases, we may know that you clicked on a social media plugin such as a Twitter tweet button, or receive other information from the social media sites.
                 Similarly, if you have previously provided personally identifiable information to a third-party operating a plug-in on this website, then this third-party may recognize you on this website.
                 Your use of social network plugins is subject to each social media site’s privacy policy, which may be different from ours, so please read these policies carefully to understand their policies and your options.

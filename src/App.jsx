@@ -7,18 +7,18 @@ import {
 
 import { useTranslation } from 'react-i18next';
 
-import Home from './homeloan/pages/Home'
-import Faq from './homeloan/pages/Faq'
-import PrivacyPolicy from './homeloan/pages/PrivacyPolicy'
-import AcceptableUse from './homeloan/pages/AcceptableUse'
+import Home from './mortgage/pages/Home'
+import Faq from './mortgage/pages/Faq'
+import PrivacyPolicy from './mortgage/pages/PrivacyPolicy'
+import AcceptableUse from './mortgage/pages/AcceptableUse'
 
-import { calcMinPayment } from "./homeloan/homeloan"
+import { calcMinPayment } from "./mortgage/mortgage"
 
 import './scss/custom.scss';
 import Container from 'react-bootstrap/Container'
 import Jumbotron from 'react-bootstrap/Jumbotron'
-import TopNavBar from './homeloan/TopNavBar'
-import Footer from './homeloan/Footer'
+import TopNavBar from './mortgage/TopNavBar'
+import Footer from './mortgage/Footer'
 
 import "./App.css" // import after Bootstrap stuff so that it can override it
 
@@ -132,8 +132,8 @@ const App = () => {
       <Router>
         <TopNavBar setLanguage={setLanguage} currentLanguage={i18n.language} />
         <Jumbotron>
-          <h1>Home Loan Simulator</h1>
-          <p>Simulate, analyze and forecast your home loan</p>
+          <h1>Mortgage Simulator</h1>
+          <p>Simulate, analyze and forecast your mortgage home loan</p>
         </Jumbotron>
         <Container>
           <Switch>

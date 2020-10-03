@@ -15,21 +15,21 @@ import { FaFacebook, FaReddit } from 'react-icons/fa'
 import { emailMailto } from "./utils"
 
 const twitterLink = (
-    <a className="text-light" href="https://twitter.com/intent/tweet?text=homeloansimulator.com:%20simulate,%20analyze,%20and%20forecast%20your%20home%20loan&url=https://homeloansimulator.com" >
+    <a className="text-light" href="https://twitter.com/intent/tweet?text=mortgage-simulator.com:%20simulate,%20analyze,%20and%20forecast%20your%20mortgage%20home%20loan&url=https://mortgage-simulator.com" >
         <span>< AiOutlineTwitter /> </span>
         <span>Twitter</span>
     </a >
 )
 
 const facebookLink = (
-    <a className="text-light" href="https://www.facebook.com/sharer/sharer.php?u=https://homeloansimulator.com">
+    <a className="text-light" href="https://www.facebook.com/sharer/sharer.php?u=https://mortgage-simulator.com">
         <span>< FaFacebook /> </span>
         <span>Facebook</span>
     </a >
 )
 
 const redditLink = (
-    <a className="text-light" href="https://www.reddit.com/submit?url=https://homeloansimulator.com">
+    <a className="text-light" href="https://www.reddit.com/submit?url=https://mortgage-simulator.com">
         <span>< FaReddit /> </span>
         <span>Reddit</span>
     </a >
@@ -43,9 +43,9 @@ const Footer = () => {
                     <p>© 2020 Martin Nobis</p>
                     <h5>About</h5>
                     <p>
-                        Home Loan Simulator was built to help you analyze and forecast the details of your home loan day-by-day.
+                        Mortgage Simulator was built to help you analyze and forecast the details of your mortgage day-by-day.
                         No other calculator gives you this much information.
-                        If you like <strong>homeloansimulator.com</strong> or have a suggestion then please drop a line.
+                        If you like <strong>mortgage-simulator.com</strong> or have a suggestion then please drop a line.
                         Feedback is much appreciated!
                     </p>
                 </Col>
