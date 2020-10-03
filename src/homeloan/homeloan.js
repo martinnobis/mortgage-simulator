@@ -1,0 +1,136 @@
+const calcMonthlyPayment = (principal, months, rate) => {
+    const monthlyRate = rate / 1200
+    return (principal * monthlyRate) / (1 - (Math.pow((1 + monthlyRate), months * -1)))
+}
+
+const calcFortnightlyPayment = (principal, months, rate) => {
+    return calcMonthlyPayment(principal, months, rate) / 2
+}
+
+const calcWeeklyPayment = (principal, months, rate) => {
+    return calcMonthlyPayment(principal, months, rate) / 4
+}
+
+export const calcMinPayment = (amountBorrowed, rate, term, repaymentFreq) => {
+    switch (repaymentFreq) {
+        case "weekly":
+            return calcWeeklyPayment(amountBorrowed, term * 12, rate)
+        case "fortnightly":
+            return calcFortnightlyPayment(amountBorrowed, term * 12, rate)
+        default:
+            return calcMonthlyPayment(amountBorrowed, term * 12, rate)
+    }
+}
+
+export const isSameDay = (d1, d2) => {
+    return (d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate())
+}
+
+const getNextDate = (day, period) => {
+    // Return a new Date with the given period added to it
+    switch (period) {
+        case "daily":
+            return new Date(day.getDate() + 1)
+        case "weekly":
+            return new Date(day.getFullYear(), day.getMonth(), day.getDate() + 7)
+        case "fortnightly":
+            return new Date(day.getFullYear(), day.getMonth(), day.getDate() + 14)
+        case "monthly":
+            return new Date(day.getFullYear(), day.getMonth() + 1, day.getDate())
+        case "yearly":
+            return new Date(day.getFullYear() + 1, day.getMonth(), day.getDate())
+        default:
+            return new Date(day.getFullYear(), day.getMonth() + 1, day.getDate()) // Monthly
+    }
+}
+
+class RegularPayment {
+    constructor(amount, period, start, end) {
+        this.amount = amount
+        this.period = period
+        this.start = start
+        this.end = end
+        this.payments = [{ amount: this.amount, date: this.start }] // add first payment
+
+        // generate payments
+        let d = getNextDate(this.start, this.period)
+        while (d.valueOf() < this.end.valueOf()) {
+            this.payments.push({ amount: this.amount, date: d })
+            d = getNextDate(d, this.period)
+        }
+    }
+
+    isPaymentDay = (day) => {
+        for (let payment of this.payments) {
+            if (isSameDay(day, payment.date)) {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+export class Day {
+    constructor(balance, date, rate, payments, interestPeriod, interestTotal) {
+        this.balance = balance
+        this.date = date
+        this.rate = rate
+        this.payments = payments
+
+        this.endBalance = payments.reduce(((a, b) => a + b), balance)
+        this.interestToday = (this.endBalance * this.rate) / 100 / 365
+        this.interestPeriod = interestPeriod + this.interestToday
+        this.interestTotal = interestTotal + this.interestToday
+    }
+}
+
+export const generateDays = async(amountBorrowed, rate, term, repaymentFreq, repayments, startDate) => {
+    if (amountBorrowed <= 0 || rate <= 0 || term <= 0) {
+        return []
+    }
+    // put them into cents
+    amountBorrowed *= 100
+    repayments *= 100
+
+    let days = []
+    const endDate = new Date(startDate.getFullYear() + term, startDate.getMonth() + 1, startDate.getDate() + 1)
+
+    let interest = new RegularPayment(0, "monthly", getNextDate(startDate, "monthly"), endDate)
+    let interestTotal = 0
+
+    const regularPayments = [
+        new RegularPayment(-repayments, repaymentFreq, getNextDate(startDate, repaymentFreq), endDate)
+    ]
+    let balance = amountBorrowed
+    let today = new Date(+startDate)
+
+    while (today.valueOf() < endDate.valueOf() && balance > 0) {
+        let todaysPayments = []
+        for (const payment of regularPayments) {
+            if (payment.isPaymentDay(today)) {
+                todaysPayments.push(payment.amount)
+            }
+        }
+        if (interest.isPaymentDay(today)) {
+            todaysPayments.push(interest.amount)
+            interest.amount = 0
+        }
+        let day = new Day(
+            balance,
+            new Date(+today),
+            rate,
+            todaysPayments,
+            interest.amount,
+            interestTotal
+        )
+        days.push(day)
+
+        interest.amount += day.interestToday
+        interestTotal += day.interestToday
+        balance = day.endBalance
+        today.setDate(today.getDate() + 1) // increment day
+    }
+    return days
+}

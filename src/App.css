@@ -1,0 +1,26 @@
+@import url("https://bootswatch.com/4/cosmo/bootstrap.min.css");
+
+/* @import url("https://bootswatch.com/4/superhero/bootstrap.min.css"); */
+
+
+/* @import url("https://bootswatch.com/4/darkly/bootstrap.min.css"); */
+
+@import url("https://fonts.googleapis.com/css?family=Kreon");
+.change-up {
+    font-weight: bold;
+    color: #E8453F;
+}
+
+.change-down {
+    font-weight: bold;
+    color: #1A9A92;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Kreon";
+}
