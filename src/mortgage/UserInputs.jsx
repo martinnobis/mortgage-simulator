@@ -17,47 +17,38 @@ import { BsFillCaretDownFill, BsFillCaretUpFill } from 'react-icons/bs';
 const locale = "en-AU"
 const formatCurrency = Intl.NumberFormat(locale, { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format
 
-export const AmountBorrowedInput = (props) => {
-    // amount is what is entered by the user, but when blurred it will
-    // display it formatted to the locale.
-    // const [amount, setAmount] = useState(0)
-
-    // const handleBlur = (e) => {
-    //     let a = parseFloat(e.target.value)
-    //     if (isNaN(a)) {
-    //         // need to reset otherwise some previous valid value will come back when input is cleared
-    //         e.target.value = ""; setAmount(0)
-    //         return
-    //     }
-    //     setAmount(a)
-    //     e.target.value = formatCurrency(a) // display formatted version
-    //     props.handleChange(a * 100) // get it into cents
-    // }
+const BalanceInput = (props) => {
     const [val, setVal] = useState(props.value)
+    return (
+        <Form.Control
+            id={props.id}
+            value={val > 0 ? val : ""}
+            autoComplete="off"
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            step="100000"
+            onChange={(e) => setVal(e.target.value)}
+            onBlur={() => props.handleChange(val)}
+        />
+    )
+}
 
+export const AmountBorrowedInputRow = (props) => {
+    const id = "amountBorrowedInput"
     return (
         <Form.Row>
             <Col>
-                <Form.Label column htmlFor="amountBorrowedInput">Amount borrowed</Form.Label>
+                <Form.Label column htmlFor={id}>Amount borrowed</Form.Label>
             </Col>
             <Col>
-                <Form.Control
-                    id="amountBorrowedInput"
-                    value={val > 0 ? val : ""}
-                    autoComplete="off"
-                    type="number"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    step="100000"
-                    onChange={(e) => setVal(e.target.value)}
-                    onBlur={() => props.handleChange(val)}
-                />
+                <BalanceInput id={id} value={props.value} handleChange={props.handleChange} />
             </Col>
         </Form.Row>
-    );
+    )
 }
 
-export const RateInput = (props) => {
+const RateInput = (props) => {
     const [val, setVal] = useState(props.value)
 
     const handleLimits = (e) => {
@@ -65,29 +56,38 @@ export const RateInput = (props) => {
         if (e.target.value < 0) { e.target.value = 0 }
         setVal(e.target.value)
     }
+    return (
+        <InputGroup>
+            <Form.Control
+                id="rateInput"
+                value={val > 0 ? val : ""}
+                pattern="[0-9]*"
+                inputMode="numeric"
+                autoComplete="off"
+                type="number"
+                onChange={(e) => handleLimits(e)}
+                onBlur={() => props.handleChange(val)}
+                step="0.001" min="0.001" max="20" maxLength="4"
+            />
+            {
+                props.percentage &&
+                <InputGroup.Prepend>
+                    <InputGroup.Text><small>%</small></InputGroup.Text>
+                </InputGroup.Prepend>
+            }
+        </InputGroup>
+    )
+}
 
+export const RateInputRow = (props) => {
+    const id = "rateInput"
     return (
         <Form.Row className="pt-1">
             <Col>
-                <Form.Label column htmlFor="rateInput">Interest rate</Form.Label>
+                <Form.Label column htmlFor={id}>Interest rate</Form.Label>
             </Col>
             <Col>
-                <InputGroup>
-                    <Form.Control
-                        id="rateInput"
-                        value={val > 0 ? val : ""}
-                        pattern="[0-9]*"
-                        inputMode="numeric"
-                        autoComplete="off"
-                        type="number"
-                        onChange={(e) => handleLimits(e)}
-                        onBlur={() => props.handleChange(val)}
-                        step="0.001" min="0.001" max="20" maxLength="4"
-                    />
-                    <InputGroup.Prepend>
-                        <InputGroup.Text><small>%</small></InputGroup.Text>
-                    </InputGroup.Prepend>
-                </InputGroup>
+                <RateInput id={id} value={props.value} handleChange={props.handleChange} percentage={true} />
             </Col>
         </Form.Row>
     );
@@ -175,22 +175,30 @@ export const Repayments = (props) => {
     );
 }
 
+const DateInput = (props) => {
+    return (
+        <DatePicker
+            id={props.id}
+            className="form-control"
+            dateFormat="MM/dd/yyyy"
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            todayButton="Today"
+            selected={props.startDate}
+            onChange={props.handleChange} />
+    )
+}
+
 export const StartDateInput = (props) => {
+    const id = "startDateInput"
     return (
         <Form.Row className="pt-1">
             <Col>
                 <Form.Label column htmlFor="startDateInput">Start date</Form.Label>
             </Col>
             <Col className="text-right">
-                <DatePicker className="form-control"
-                    id="startDateInput"
-                    dateFormat="MM/dd/yyyy"
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode="select"
-                    todayButton="Today"
-                    selected={props.startDate}
-                    onChange={props.handleChange} />
+                <DateInput className="text-right" id={id} {...props} />
             </Col>
         </Form.Row>
     )
@@ -199,6 +207,7 @@ export const StartDateInput = (props) => {
 export const ExtraTypeSelector = (props) => {
     return (
         <Form.Control
+            id={props.id}
             as="select"
             value={props.value}
             onChange={(e) => props.handleChange(e.target.value)}
@@ -207,64 +216,6 @@ export const ExtraTypeSelector = (props) => {
             <option value="balance">balance</option>
             <option value="repayments">repayments</option>
         </Form.Control>
-    )
-}
-
-export const ExtraBalanceInput = (props) => {
-    const [val, setVal] = useState(props.value)
-
-    return (
-        <Form.Control
-            id="amountBorrowedInput"
-            value={val > 0 ? val : ""}
-            autoComplete="off"
-            type="number"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            step="100000"
-            onChange={(e) => setVal(e.target.value)}
-            onBlur={() => props.handleChange(val)}
-        />
-    )
-}
-
-export const ExtraRateInput = (props) => {
-    const [val, setVal] = useState(props.value)
-
-    const handleLimits = (e) => {
-        if (e.target.value > 20) { e.target.value = 20 }
-        if (e.target.value < 0) { e.target.value = 0 }
-        setVal(e.target.value)
-    }
-
-    return (
-        <InputGroup>
-            <Form.Control
-                id="rateInput"
-                value={val > 0 ? val : ""}
-                pattern="[0-9]*"
-                inputMode="numeric"
-                autoComplete="off"
-                type="number"
-                onChange={(e) => handleLimits(e)}
-                onBlur={() => props.handleChange(val)}
-                step="0.001" min="0.001" max="20" maxLength="4"
-            />
-        </InputGroup>
-    )
-}
-
-export const ExtraDatePicker = (props) => {
-    return (
-        <DatePicker className="form-control"
-            id="startDateInput"
-            dateFormat="MM/dd/yyyy"
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            todayButton="Today"
-            selected={props.date}
-            onChange={props.handleChange} />
     )
 }
 
@@ -278,26 +229,48 @@ export const ExtraInputs = (props) => {
     const handleAmountChange = a => setAmount(a)
     const handleDateChange = d => setDate(d)
 
+    const typeSelectorId = "extraType"
+    const amountId = "extraAmount"
+    const dateId = "extraDate"
+
     return (
-        <Row>
-            <span>Change</span>
-            <Col xs="auto">
-                <ExtraTypeSelector xs="auto" inline value={type} handleChange={handleTypeChange} />
-            </Col>
-            <span>to</span>
-            <Col xs={2}>
-                {
-                    type === "rate" ?
-                        <ExtraRateInput value={amount} handleChange={handleAmountChange} />
-                        :
-                        <ExtraBalanceInput value={amount} handleChange={handleAmountChange} />
-                }
-            </Col>
-            <span>from</span>
-            <Col xs="auto">
-                <ExtraDatePicker date={props.date} handleChange={handleDateChange} />
-            </Col>
-        </Row>
+        <div>
+            <Form.Row>
+                <Col>
+                    <Form.Label column htmlFor={typeSelectorId}>
+                        Change
+                </Form.Label>
+                </Col>
+                <Col>
+                    <ExtraTypeSelector id={typeSelectorId} value={type} handleChange={handleTypeChange} />
+                </Col>
+            </Form.Row>
+            <Form.Row>
+                <Col>
+                    <Form.Label column htmlFor={typeSelectorId}>
+                        to
+                </Form.Label>
+                </Col>
+                <Col>
+                    {
+                        type === "rate" ?
+                            <RateInput id={amountId} value={amount} handleChange={handleAmountChange} />
+                            :
+                            <BalanceInput id={amountId} value={amount} handleChange={handleAmountChange} />
+                    }
+                </Col>
+            </Form.Row>
+            <Form.Row>
+                <Col>
+                    <Form.Label column htmlFor={dateId}>
+                        from
+                </Form.Label>
+                </Col>
+                <Col className="text-right">
+                    <DateInput id={dateId} startDate={date} handleChange={handleDateChange} />
+                </Col>
+            </Form.Row>
+        </div>
     )
 
 }

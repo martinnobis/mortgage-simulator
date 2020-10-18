@@ -36,13 +36,13 @@ const App = () => {
 
   const [extraInputs, setExtraInputs] = useState(localStorage.getItem("extraInputs") ||
     [
-      { type: "balance", amount: "", date: new Date(), active: false }
+      { type: "rate", amount: 0, date: new Date(), active: true }
     ]
   )
 
-  const handleNewExtraInputs = (t, a, d) => {
+  const handleAddExtraInputs = (t, a, d) => {
     let temp = [...extraInputs]
-    temp.push({ type: t, amount: a, date: d })
+    temp.push({ type: t, amount: a, date: d, active: true })
     setExtraInputs(temp)
     localStorage.setItem("extraInputs", temp)
   }
@@ -114,7 +114,7 @@ const App = () => {
     handleRepaymentsChange,
     handleResetClick,
     handleDaysChange,
-    handleNewExtraInputs
+    handleNewExtraInputs: handleAddExtraInputs
   };
 
   let inputs = {

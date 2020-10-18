@@ -8,15 +8,14 @@ import Form from 'react-bootstrap/esm/Form'
 import Dropdown from 'react-bootstrap/esm/Dropdown'
 import DropdownButton from 'react-bootstrap/esm/DropdownButton'
 
-import { AiOutlineClose } from 'react-icons/ai';
-
 import {
-    AmountBorrowedInput,
-    RateInput,
+    AmountBorrowedInputRow,
+    RateInputRow,
     TermInput,
     RepaymentFreqInput,
     Repayments,
-    StartDateInput, ExtraInputs
+    StartDateInput,
+    ExtraInputs
 } from "./UserInputs"
 
 import RepaymentLabel from "./RepaymentLabel"
@@ -39,33 +38,57 @@ const SimulatorInput = (props) => {
     }, [props, isSimulating]);
 
     return (
-        <Row className="pb-3 justify-content-between">
-            <Col>
-                <Row>
-                    <Col>
-                        <AmountBorrowedInput value={props.amountBorrowed} handleChange={(v) => props.handleAmountBorrowedChange(v)} />
-                        <RateInput value={props.rate} handleChange={(v) => props.handleRateChange(v)} />
-                        <TermInput value={props.term} maxTerm={30} handleChange={(v) => props.handleTermChange(parseInt(v))} />
-                        <RepaymentFreqInput value={props.repaymentFreq} handleChange={(v) => props.handleRepaymentFreqChange(v)} />
-                        <RepaymentLabel minRepayments={props.minRepayments} />
-                        <Repayments
-                            value={props.repayments}
-                            minRepayments={props.minRepayments}
-                            handleResetClick={() => props.handleResetClick()}
-                            handleChange={(v) => props.handleRepaymentsChange(v)}
-                        />
-                        <StartDateInput startDate={props.startDate} handleChange={(v) => props.handleStartDateChange(v)} />
-                        {/* {props.extraInputs.map((e, i) => <ExtraInputs key={i} {...e} />)} */}
-                        <Button className="mt-1" size="lg" block variant="primary" disabled={isSimulating} onClick={() => setSimulating(true)}>
-                            {isSimulating ?
-                                <Spinner as="span" animation="border" size="lg" role="status" aria-hidden="true" />
-                                :
-                                "Click to simulate"}
-                        </Button>
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
+        <div>
+            <Row className="justify-content-center">
+                <p>
+                    Duis placerat justo non interdum luctus. Nunc mattis malesuada quam sit amet facilisis. Cras quis sapien eu ex aliquet vestibulum. Quisque congue in leo eget eleifend. Ut convallis pretium ex, at venenatis arcu imperdiet non. Quisque elementum neque quam, sit amet bibendum neque luctus ac. Suspendisse pulvinar magna neque, ac rutrum libero accumsan sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec in fermentum tortor, at maximus ipsum. Sed iaculis sapien orci, id consequat urna mollis a.
+                </p>
+            </Row>
+            <Row className="pb-3 justify-content-center">
+                <Col xs={6}>
+                    <AmountBorrowedInputRow value={props.amountBorrowed} handleChange={(v) => props.handleAmountBorrowedChange(v)} />
+                    <RateInputRow value={props.rate} handleChange={(v) => props.handleRateChange(v)} />
+                    <TermInput value={props.term} maxTerm={30} handleChange={(v) => props.handleTermChange(parseInt(v))} />
+                    <RepaymentFreqInput value={props.repaymentFreq} handleChange={(v) => props.handleRepaymentFreqChange(v)} />
+                    <RepaymentLabel minRepayments={props.minRepayments} />
+                    <Repayments
+                        value={props.repayments}
+                        minRepayments={props.minRepayments}
+                        handleResetClick={() => props.handleResetClick()}
+                        handleChange={(v) => props.handleRepaymentsChange(v)}
+                    />
+                    <StartDateInput startDate={props.startDate} handleChange={(v) => props.handleStartDateChange(v)} />
+                </Col>
+            </Row>
+            <Row className="justify-content-center">
+                <p>
+                    Duis placerat justo non interdum luctus. Nunc mattis malesuada quam sit amet facilisis. Cras quis sapien eu ex aliquet vestibulum. Quisque congue in leo eget eleifend. Ut convallis pretium ex, at venenatis arcu imperdiet non. Quisque elementum neque quam, sit amet bibendum neque luctus ac. Suspendisse pulvinar magna neque, ac rutrum libero accumsan sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec in fermentum tortor, at maximus ipsum. Sed iaculis sapien orci, id consequat urna mollis a.
+                </p>
+            </Row>
+            <Row className="pb-3 justify-content-center">
+                <Col xs={6}>
+                    <h4>Options</h4>
+                    <Button>Add change</Button>
+                    {props.extraInputs.map((e, i) => <ExtraInputs key={i} {...e} />)}
+                </Col>
+            </Row>
+            <Row className="pb-3 justify-content-center" style={{ "position": "sticky", "bottom": 0 }}>
+                <Col xs={8}>
+                    <Button
+                        className="mt-1"
+                        size="lg"
+                        block
+                        variant="primary"
+                        disabled={isSimulating}
+                        onClick={() => setSimulating(true)}>
+                        {isSimulating ?
+                            <Spinner as="span" animation="border" size="lg" role="status" aria-hidden="true" />
+                            :
+                            "Click to simulate"}
+                    </Button>
+                </Col>
+            </Row>
+        </div>
     )
 }
 

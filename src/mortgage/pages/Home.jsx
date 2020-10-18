@@ -10,16 +10,13 @@ const Home = (props) => {
     return (
         <div>
             <Row className="justify-content-center">
-                <Col xs={12} sm={6}>
+                <Col xs={12}>
                     <SimulatorInput
                         minRepayments={props.minRepayments}
                         {...props.inputs}
                         {...props.simFunctions}
                     />
                 </Col>
-            </Row>
-            <Row>
-
             </Row>
             { props.dayOfDays > 0 || <Table className="pb-4" days={props.daysOfDays} />}
             {/* <Graph daysOfDays={props.daysOfDays} /> */}
@@ -33,7 +30,7 @@ const Home = (props) => {
                             Before making any commitment of a financial nature you should seek advice from a qualified and registered financial or investment adviser.
                             No material contained within this website should be construed or relied upon as providing recommendations in relation to any financial product.
                             We do not recommend or endorse products and do not receive remuneration based upon investment decisions by our website users.
-            </p>
+                        </p>
                     </small>
                 </Col>
             </Row>
