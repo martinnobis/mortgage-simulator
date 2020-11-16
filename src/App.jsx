@@ -34,17 +34,17 @@ const App = () => {
   const [minRepayments, setMinRepayments] = useState(localStorage.getItem("minRepayments") || 0)
   const [daysOfDays, setDaysOfDays] = useState([])
 
-  const [extraInputs, setExtraInputs] = useState(localStorage.getItem("extraInputs") ||
+  const [changes, setChanges] = useState(JSON.parse(localStorage.getItem("changes")) ||
     [
       { type: "rate", amount: 0, date: new Date(), active: true }
     ]
   )
 
-  const handleAddExtraInputs = (t, a, d) => {
-    let temp = [...extraInputs]
-    temp.push({ type: t, amount: a, date: d, active: true })
-    setExtraInputs(temp)
-    localStorage.setItem("extraInputs", temp)
+  const handleNewChange = () => {
+    let temp = [...changes]
+    temp.push({ type: "rate", amount: 0, date: new Date(), active: true })
+    setChanges(temp)
+    localStorage.setItem("changes", JSON.stringify(temp))
   }
 
   useEffect(() => {
@@ -114,8 +114,8 @@ const App = () => {
     handleRepaymentsChange,
     handleResetClick,
     handleDaysChange,
-    handleNewExtraInputs: handleAddExtraInputs
-  };
+    handleNewChange
+  }
 
   let inputs = {
     "amountBorrowed": amountBorrowed,
@@ -124,7 +124,7 @@ const App = () => {
     "startDate": startDate,
     "repaymentFreq": repaymentFreq,
     "repayments": repayments,
-    "extraInputs": extraInputs
+    "changes": changes
   }
 
   return (

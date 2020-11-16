@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 import InputGroup from 'react-bootstrap/esm/InputGroup'
 import Button from 'react-bootstrap/esm/Button'
+import Table from 'react-bootstrap/esm/Table'
+import FormControl from 'react-bootstrap/esm/FormControl'
 import OverlayTrigger from 'react-bootstrap/esm/OverlayTrigger'
 import Tooltip from 'react-bootstrap/esm/Tooltip'
 
@@ -12,6 +14,8 @@ import DatePicker from "react-datepicker";
 import "../../node_modules/react-datepicker/dist/react-datepicker.css";
 
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
+import { RiDeleteBinLine } from 'react-icons/ri';
 import { BsFillCaretDownFill, BsFillCaretUpFill } from 'react-icons/bs';
 
 const locale = "en-AU"
@@ -273,4 +277,53 @@ export const ExtraInputs = (props) => {
         </div>
     )
 
+}
+
+export const ChangeRow = (props) => {
+    const [enabled, setEnabled] = useState(false)
+    const [editable, setEditable] = useState(false)
+
+    return (
+        <tr>
+            <td>
+                {props.type}
+            </td>
+            <td>
+                {props.amount}
+            </td>
+            <td>
+                {props.date.valueOf()}
+            </td>
+            <td>
+                <Form.Check value={enabled} onClick={(e) => setEnabled(e.target.value)} />
+            </td>
+            <td>
+                <Button><BiEdit /></Button>
+            </td>
+            <td>
+                <Button><RiDeleteBinLine /></Button>
+            </td>
+        </tr>
+    )
+}
+
+export const ChangeTable = (props) => {
+    return (
+        <div>
+            <Table striped bordered hover size="sm">
+                <thead>
+                    <tr>
+                        <th>Change</th>
+                        <th>Value</th>
+                        <th>From</th>
+                        <th>Enabled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.changes.map((e, i) => <ChangeRow key={i} {...e} />)}
+                </tbody>
+            </Table>
+            <Button onClick={props.handleNewRow}>Add</Button>
+        </div>
+    )
 }

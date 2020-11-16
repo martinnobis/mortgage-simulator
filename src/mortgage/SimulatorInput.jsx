@@ -15,7 +15,7 @@ import {
     RepaymentFreqInput,
     Repayments,
     StartDateInput,
-    ExtraInputs
+    ChangeTable
 } from "./UserInputs"
 
 import RepaymentLabel from "./RepaymentLabel"
@@ -39,6 +39,7 @@ const SimulatorInput = (props) => {
 
     return (
         <div>
+            <h2>Start with your Mortgage Details</h2>
             <Row className="justify-content-center">
                 <p>
                     Duis placerat justo non interdum luctus. Nunc mattis malesuada quam sit amet facilisis. Cras quis sapien eu ex aliquet vestibulum. Quisque congue in leo eget eleifend. Ut convallis pretium ex, at venenatis arcu imperdiet non. Quisque elementum neque quam, sit amet bibendum neque luctus ac. Suspendisse pulvinar magna neque, ac rutrum libero accumsan sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec in fermentum tortor, at maximus ipsum. Sed iaculis sapien orci, id consequat urna mollis a.
@@ -60,16 +61,18 @@ const SimulatorInput = (props) => {
                     <StartDateInput startDate={props.startDate} handleChange={(v) => props.handleStartDateChange(v)} />
                 </Col>
             </Row>
+            <h2>Add a Change</h2>
             <Row className="justify-content-center">
                 <p>
                     Duis placerat justo non interdum luctus. Nunc mattis malesuada quam sit amet facilisis. Cras quis sapien eu ex aliquet vestibulum. Quisque congue in leo eget eleifend. Ut convallis pretium ex, at venenatis arcu imperdiet non. Quisque elementum neque quam, sit amet bibendum neque luctus ac. Suspendisse pulvinar magna neque, ac rutrum libero accumsan sed. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec in fermentum tortor, at maximus ipsum. Sed iaculis sapien orci, id consequat urna mollis a.
                 </p>
             </Row>
-            <Row className="pb-3 justify-content-center">
-                <Col xs={6}>
-                    <h4>Options</h4>
-                    <Button>Add change</Button>
-                    {props.extraInputs.map((e, i) => <ExtraInputs key={i} {...e} />)}
+            <Row>
+                <Col>
+                    <ChangeTable
+                        changes={props.changes}
+                        handleNewRow={props.handleNewChange}
+                    />
                 </Col>
             </Row>
             <Row className="pb-3 justify-content-center" style={{ "position": "sticky", "bottom": 0 }}>
