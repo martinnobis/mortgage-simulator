@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-} from "react-router-dom";
+} from "react-router-dom"
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 import Home from './mortgage/pages/Home'
 import Faq from './mortgage/pages/Faq'
 import PrivacyPolicy from './mortgage/pages/PrivacyPolicy'
 import AcceptableUse from './mortgage/pages/AcceptableUse'
+import Contact from './mortgage/pages/Contact'
 
 import { calcMinPayment } from "./mortgage/mortgage"
 
@@ -21,6 +22,20 @@ import TopNavBar from './mortgage/TopNavBar'
 import Footer from './mortgage/Footer'
 
 import "./App.css" // import after Bootstrap stuff so that it can override it
+
+const defaultChange = {
+  title: "Add a title",
+  type: "Interest rate change",
+  amount: 0,
+  date: JSON.stringify(new Date()),
+  active: true
+}
+
+const helloWorld = window.firebase
+
+for (var i in window) {
+  console.log(i)
+}
 
 const App = () => {
   const { t, i18n } = useTranslation();
@@ -36,13 +51,20 @@ const App = () => {
 
   const [changes, setChanges] = useState(JSON.parse(localStorage.getItem("changes")) ||
     [
-      { type: "rate", amount: 0, date: new Date(), active: true }
+      defaultChange
     ]
   )
 
-  const handleNewChange = () => {
+  const handleChangeChange = (i, c) => {
     let temp = [...changes]
-    temp.push({ type: "rate", amount: 0, date: new Date(), active: true })
+    temp[i] = c
+    setChanges(temp)
+    localStorage.setItem("changes", JSON.stringify(temp))
+  }
+
+  const addNewChange = () => {
+    let temp = [...changes]
+    temp.push(defaultChange)
     setChanges(temp)
     localStorage.setItem("changes", JSON.stringify(temp))
   }
@@ -114,7 +136,8 @@ const App = () => {
     handleRepaymentsChange,
     handleResetClick,
     handleDaysChange,
-    handleNewChange
+    addNewChange,
+    handleChangeChange
   }
 
   let inputs = {
@@ -140,6 +163,7 @@ const App = () => {
             <Route path="/faq" exact><Faq /></Route>
             <Route path="/privacy-policy" exact><PrivacyPolicy /></Route>
             <Route path="/acceptable-use" exact ><AcceptableUse /></Route>
+            <Route path="/contact" exact ><Contact /></Route>
             {/* Client side cannot send/set status code */}
             <Route path="*">
               <Home

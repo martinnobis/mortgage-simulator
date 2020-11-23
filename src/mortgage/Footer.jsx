@@ -57,7 +57,7 @@ const Footer = () => {
                 </Col>
                 <Col xs={6} sm={2}>
                     <h5>Contact</h5>
-                    <p><a className="text-light" href={emailMailto} rel="noopener noreferrer" target="_blank">Email</a></p>
+                    <p><a className="text-light" href="/contact">Contact us</a></p>
                     <p><a className="text-light" href="/privacy-policy">Privacy policy</a></p>
                     <p><a className="text-light" href="/acceptable-use">Acceptable use</a></p>
                 </Col>

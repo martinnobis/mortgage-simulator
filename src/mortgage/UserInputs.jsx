@@ -9,6 +9,7 @@ import Table from 'react-bootstrap/esm/Table'
 import FormControl from 'react-bootstrap/esm/FormControl'
 import OverlayTrigger from 'react-bootstrap/esm/OverlayTrigger'
 import Tooltip from 'react-bootstrap/esm/Tooltip'
+import Card from 'react-bootstrap/esm/Card'
 
 import DatePicker from "react-datepicker";
 import "../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -17,6 +18,8 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { BsFillCaretDownFill, BsFillCaretUpFill } from 'react-icons/bs';
+import { TiDeleteOutline } from 'react-icons/ti';
+
 
 const locale = "en-AU"
 const formatCurrency = Intl.NumberFormat(locale, { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format
@@ -251,9 +254,7 @@ export const ExtraInputs = (props) => {
             </Form.Row>
             <Form.Row>
                 <Col>
-                    <Form.Label column htmlFor={typeSelectorId}>
-                        to
-                </Form.Label>
+                    <Form.Label column htmlFor={typeSelectorId}>to</Form.Label>
                 </Col>
                 <Col>
                     {
@@ -307,6 +308,55 @@ export const ChangeRow = (props) => {
     )
 }
 
+export const ChangeCard = (props) => {
+    const [enabled, setEnabled] = useState(true)
+
+    const cardStyle = { "width": "18rem" }
+    const enabledStyle = { ...cardStyle, "backgroundColor": "#00FFFF" }
+    const disabledStyle = { ...cardStyle, "backgroundColor": "#F0F8FF" }
+
+    return (
+        <Card style={enabled ? enabledStyle : disabledStyle}>
+            <Card.Body>
+                <Card.Title>
+                    <Form.Check
+                        checked={enabled}
+                        id="check"
+                        onClick={() => setEnabled(!enabled)}
+                    >
+                    </Form.Check>
+                </Card.Title>
+                <Form.Control as="select">
+                    <option>Interest rate</option>
+                    <option>Balance</option>
+                    <option>Repayment frequency</option>
+                </Form.Control>
+                <Row>
+                    <Col>
+                        <Form.Label column htmlFor="rateInput">New interest rate</Form.Label>
+                    </Col>
+                    <Col>
+                        <RateInput></RateInput>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Label column htmlFor="fromInput">From</Form.Label>
+                    </Col>
+                    <Col>
+                        <DateInput></DateInput>
+                    </Col>
+                </Row>
+                <Form.Control placeholder="Amount"></Form.Control>
+                <Form.Control placeholder="Date"></Form.Control>
+                <OverlayTrigger delay={200} overlay={<Tooltip id="tooltip-disabled">Delete</Tooltip>}>
+                    <Button style={{ "background-color": "red" }}>Hello my name is  <Button><RiDeleteBinLine /></Button></Button>
+                </OverlayTrigger>
+            </Card.Body>
+        </Card >
+    )
+}
+
 export const ChangeTable = (props) => {
     return (
         <div>
@@ -315,7 +365,7 @@ export const ChangeTable = (props) => {
                     <tr>
                         <th>Change</th>
                         <th>Value</th>
-                        <th>From</th>
+                        <th>Date</th>
                         <th>Enabled</th>
                     </tr>
                 </thead>

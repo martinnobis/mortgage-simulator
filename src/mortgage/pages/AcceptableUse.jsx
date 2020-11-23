@@ -63,7 +63,7 @@ const AcceptableUse = () => {
             <p>You acknowledge that you have read this Policy and agree to all its terms and conditions. By using the Website or its Services you agree to be bound by this Policy. If you do not agree to abide by the terms of this Policy, you are not authorized to use or access the Website and its Services.</p>
 
             <h2>Contact</h2>
-            <p>If you have any questions about this Policy, please get in contact by <a href={emailMailto}>sending an email.</a></p>
+            <p>If you have any questions about this Policy, please get in contact by <a href="/contact">sending a message.</a></p>
         </div>
     )
 }
