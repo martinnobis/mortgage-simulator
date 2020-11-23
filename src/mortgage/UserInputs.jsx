@@ -10,6 +10,7 @@ import FormControl from 'react-bootstrap/esm/FormControl'
 import OverlayTrigger from 'react-bootstrap/esm/OverlayTrigger'
 import Tooltip from 'react-bootstrap/esm/Tooltip'
 import Card from 'react-bootstrap/esm/Card'
+import Spinner from 'react-bootstrap/esm/Spinner'
 
 import DatePicker from "react-datepicker";
 import "../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -375,5 +376,24 @@ export const ChangeTable = (props) => {
             </Table>
             <Button onClick={props.handleNewRow}>Add</Button>
         </div>
+    )
+}
+
+export const LoadButton = (props) => {
+    return (
+        <Button
+            type={props.type}
+            className={props.className}
+            size={props.size}
+            block={props.block}
+            variant={props.variant}
+            disabled={props.isLoading}
+            onClick={props.onClick}>
+            {props.isLoading ?
+                <Spinner as="span" animation="border" size="lg" role="status" aria-hidden="true" />
+                :
+                props.label
+            }
+        </Button>
     )
 }

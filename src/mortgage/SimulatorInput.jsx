@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "../../node_modules/react"
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
 import Button from 'react-bootstrap/esm/Button'
-import Spinner from 'react-bootstrap/esm/Spinner'
 import Form from 'react-bootstrap/esm/Form'
 import Dropdown from 'react-bootstrap/esm/Dropdown'
 import DropdownButton from 'react-bootstrap/esm/DropdownButton'
@@ -15,6 +14,7 @@ import {
     RepaymentFreqInput,
     Repayments,
     StartDateInput,
+    LoadButton,
     ChangeTable,
     ChangeCard
 } from "./UserInputs"
@@ -77,7 +77,7 @@ const SimulatorInput = (props) => {
             </Row> */}
             <Row className="pb-3 justify-content-center" style={{ "position": "sticky", "bottom": 0 }}>
                 <Col xs={8}>
-                    <Button
+                    {/* <Button
                         className="mt-1"
                         size="lg"
                         block
@@ -88,7 +88,15 @@ const SimulatorInput = (props) => {
                             <Spinner as="span" animation="border" size="lg" role="status" aria-hidden="true" />
                             :
                             "Click to simulate"}
-                    </Button>
+                    </Button> */}
+                    <LoadButton
+                        className="mt-1"
+                        size="lg"
+                        block
+                        variant="primary"
+                        label="Click to simulate"
+                        onClick={() => setSimulating(true)}
+                        isLoading={isSimulating} />
                 </Col>
             </Row>
         </div>
