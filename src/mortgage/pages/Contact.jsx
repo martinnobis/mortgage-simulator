@@ -1,14 +1,34 @@
 import React, { useState, useEffect } from "react"
 
 import Form from "react-bootstrap/esm/Form"
-import Button from "react-bootstrap/esm/Button"
 import { LoadButton } from "../UserInputs"
+import Alert from "react-bootstrap/Alert"
 
 import db from "../../firebase"
+
+const AlertSuccess = () => {
+    return (
+        <Alert variant="success">
+            <Alert.Heading>Thank you!</Alert.Heading>
+            <p>Your message has been received 👍 Have a nice day!</p>
+        </Alert>
+    )
+}
+
+const AlertFail = () => {
+    return (
+        <Alert variant="danger">
+            <Alert.Heading>Oops!</Alert.Heading>
+            <p>Your message could not be sent 👎 Please try again later.</p>
+        </Alert>
+    )
+}
 
 const Contact = () => {
     const [validated, setValidated] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
+    const [submitSuccess, setSubmitSuccess] = useState(false)
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -23,24 +43,35 @@ const Contact = () => {
     useEffect(() => {
         if (validated) {
             setIsSubmitting(true)
-            db.collection("contactForm").add({
-                name: name,
-                email: email,
-                message: message
+            db.collection("mail").add({
+                to: "mortgagesim@gmail.com",
+                from: "mortgagesim@gmail.com",
+                replyTo: email,
+                message: {
+                    subject: `${name}'s enquiry`,
+                    text: message
+                }
             }).then(() => {
                 setIsSubmitting(false)
-            }).then(() => {
-                alert("Your message has been submitted! 👍")
-            }).catch(error => {
-                alert(error.message)
-            })
-            setName("")
-            setEmail("")
-            setMessage("")
 
+                setSubmitSuccess(true)
+                setShowAlert(true)
+
+                setName("")
+                setEmail("")
+                setMessage("")
+            }).catch((e) => {
+                setIsSubmitting(false)
+
+                console.error(e.message)
+
+                setSubmitSuccess(false)
+                setShowAlert(true)
+            })
             setValidated(false)
         }
     }, [validated, name, email, message])
+
 
     return (
         <Form validated={validated} onSubmit={handleSubmit}>
@@ -61,17 +92,18 @@ const Contact = () => {
                 <Form.Label>Message</Form.Label>
                 <Form.Control onChange={(e) => setMessage(e.target.value)} value={message} required as="textarea" rows={5} />
             </Form.Group>
-
-            {/* <Button variant="primary" type="submit">
-                Submit
-            </Button> */}
-            <LoadButton
-                type="submit"
-                variant="primary"
-                label="Submit"
-                isLoading={isSubmitting}
-            />
-        </Form>
+            {
+                showAlert ?
+                    submitSuccess ? <AlertSuccess /> : <AlertFail />
+                    :
+                    <LoadButton
+                        type="submit"
+                        variant="primary"
+                        label="Submit"
+                        isLoading={isSubmitting}
+                    />
+            }
+        </Form >
     )
 }
 
