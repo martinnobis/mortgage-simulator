@@ -4,7 +4,10 @@ import Form from "react-bootstrap/esm/Form"
 import { LoadButton } from "../UserInputs"
 import Alert from "react-bootstrap/Alert"
 
-import db from "../../firebase"
+import { db } from "../../firebase"
+
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 const AlertSuccess = () => {
     return (
@@ -29,6 +32,7 @@ const Contact = () => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
     const [submitSuccess, setSubmitSuccess] = useState(false)
+    const [recaptchad, setRecaptchad] = useState(false)
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -41,7 +45,7 @@ const Contact = () => {
     }
 
     useEffect(() => {
-        if (validated) {
+        if (validated && recaptchad) {
             setIsSubmitting(true)
             db.collection("mail").add({
                 to: "mortgagesim@gmail.com",
@@ -69,8 +73,9 @@ const Contact = () => {
                 setShowAlert(true)
             })
             setValidated(false)
+            setRecaptchad(false)
         }
-    }, [validated, name, email, message])
+    }, [validated, recaptchad, name, email, message])
 
 
     return (
@@ -96,12 +101,18 @@ const Contact = () => {
                 showAlert ?
                     submitSuccess ? <AlertSuccess /> : <AlertFail />
                     :
-                    <LoadButton
-                        type="submit"
-                        variant="primary"
-                        label="Submit"
-                        isLoading={isSubmitting}
-                    />
+                    <div>
+                        <ReCAPTCHA
+                            sitekey="6LcMNO4ZAAAAAHIlvntvIjprMKwO1IMxgR6XzgEF"
+                            onChange={() => setRecaptchad(true)}
+                        />
+                        <LoadButton
+                            type="submit"
+                            variant="primary"
+                            label="Submit"
+                            isLoading={isSubmitting}
+                        />
+                    </div>
             }
         </Form >
     )
