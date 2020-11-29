@@ -47,7 +47,7 @@ const SimulatorInput = (props) => {
                 </p>
             </Row> */}
             <Row className="pb-3 justify-content-center">
-                <Col xs={6}>
+                <Col xs={12} sm={9} md={6}>
                     <AmountBorrowedInputRow value={props.amountBorrowed} handleChange={(v) => props.handleAmountBorrowedChange(v)} />
                     <RateInputRow value={props.rate} handleChange={(v) => props.handleRateChange(v)} />
                     <TermInput value={props.term} maxTerm={30} handleChange={(v) => props.handleTermChange(parseInt(v))} />
@@ -76,19 +76,7 @@ const SimulatorInput = (props) => {
                 />
             </Row> */}
             <Row className="pb-3 justify-content-center" style={{ "position": "sticky", "bottom": 0 }}>
-                <Col xs={8}>
-                    {/* <Button
-                        className="mt-1"
-                        size="lg"
-                        block
-                        variant="primary"
-                        disabled={isSimulating}
-                        onClick={() => setSimulating(true)}>
-                        {isSimulating ?
-                            <Spinner as="span" animation="border" size="lg" role="status" aria-hidden="true" />
-                            :
-                            "Click to simulate"}
-                    </Button> */}
+                <Col xs={12} sm={9} md={8}>
                     <LoadButton
                         className="mt-1"
                         size="lg"
