@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "../../../node_modules/react"
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
 import Graph from "../Graph"
+import PaymentsPie from "../PaymentsPie"
 import SimulatorInput from "../SimulatorInput"
 import Table from "../Table"
+import { formatCurrency } from "../utils"
 
 const Home = (props) => {
     return (
@@ -18,8 +20,16 @@ const Home = (props) => {
                     />
                 </Col>
             </Row>
-            { props.dayOfDays > 0 || <Table className="pb-4" days={props.daysOfDays} />}
-            {/* <Graph daysOfDays={props.daysOfDays} /> */}
+            {/* {props.days.length > 0 ? <Graph days={props.days} /> : null} */}
+            {props.days.length > 0 ?
+                <div>
+                    <p>Total repayment amount: {formatCurrency(-props.repaymentsTotal / 100)}</p>
+                    <p>Total interest paid: {formatCurrency(props.interestTotal / 100)}</p>
+                    {/* <PaymentsPie /> */}
+                    <Table className="pb-4" days={props.days} />
+                </div>
+                :
+                null}
             <Row>
                 <Col className="pt-4">
                     <small >

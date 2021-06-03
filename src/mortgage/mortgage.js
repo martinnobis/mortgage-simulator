@@ -47,7 +47,8 @@ const getNextDate = (day, period) => {
 }
 
 class RegularPayment {
-    constructor(amount, period, start, end) {
+    constructor(name, amount, period, start, end) {
+        this.name = name
         this.amount = amount
         this.period = period
         this.start = start
@@ -79,7 +80,7 @@ export class Day {
         this.rate = rate
         this.payments = payments
 
-        this.endBalance = payments.reduce(((a, b) => a + b), balance)
+        this.endBalance = payments.map((p) => p.amount).reduce(((a, b) => a + b), balance)
         this.interestToday = (this.endBalance * this.rate) / 100 / 365
         this.interestPeriod = interestPeriod + this.interestToday
         this.interestTotal = interestTotal + this.interestToday
@@ -87,36 +88,45 @@ export class Day {
 }
 
 export const generateDays = async(amountBorrowed, rate, term, repaymentFreq, repayments, startDate) => {
-    if (amountBorrowed <= 0 || rate <= 0 || term <= 0) {
-        return []
-    }
-    // put them into cents
-    amountBorrowed *= 100
+    if (amountBorrowed <= 0 || rate <= 0 || term <= 0) { return [] }
+
+    amountBorrowed *= 100 // put them into cents
     repayments *= 100
 
     let days = []
     const endDate = new Date(startDate.getFullYear() + term, startDate.getMonth() + 1, startDate.getDate() + 1)
 
-    let interest = new RegularPayment(0, "monthly", getNextDate(startDate, "monthly"), endDate)
+    let interest = new RegularPayment("Interest", 0, "monthly", getNextDate(startDate, "monthly"), endDate)
     let interestTotal = 0
 
-    const regularPayments = [
-        new RegularPayment(-repayments, repaymentFreq, getNextDate(startDate, repaymentFreq), endDate)
-    ]
+    const repayment = new RegularPayment("Repayments", -repayments, repaymentFreq, getNextDate(startDate, repaymentFreq), endDate)
+    let repaymentsTotal = 0
     let balance = amountBorrowed
     let today = new Date(+startDate)
 
-    while (today.valueOf() < endDate.valueOf() && balance > 0) {
+    while (today.valueOf() < endDate.valueOf() && balance > 0.01) {
+
         let todaysPayments = []
-        for (const payment of regularPayments) {
-            if (payment.isPaymentDay(today)) {
-                todaysPayments.push(payment.amount)
+        if (repayment.isPaymentDay(today)) {
+            if (balance < -repayment.amount) {
+                // last repayment day, hooray!!
+                todaysPayments.push({ name: repayment.name, amount: -balance - interest.amount })
+                repaymentsTotal += (-balance - interest.amount)
+
+                // also pay the last bit of interest at the same time
+                todaysPayments.push({ name: interest.name, amount: interest.amount })
+                interest.amount = 0
+            } else {
+                todaysPayments.push({ name: repayment.name, amount: repayment.amount })
+                repaymentsTotal += repayment.amount
             }
         }
+
         if (interest.isPaymentDay(today)) {
-            todaysPayments.push(interest.amount)
+            todaysPayments.push({ name: interest.name, amount: interest.amount })
             interest.amount = 0
         }
+
         let day = new Day(
             balance,
             new Date(+today),
@@ -132,5 +142,5 @@ export const generateDays = async(amountBorrowed, rate, term, repaymentFreq, rep
         balance = day.endBalance
         today.setDate(today.getDate() + 1) // increment day
     }
-    return days
+    return { days, interestTotal, repaymentsTotal }
 }

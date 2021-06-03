@@ -31,12 +31,6 @@ const defaultChange = {
   active: true
 }
 
-const helloWorld = window.firebase
-
-for (var i in window) {
-  console.log(i)
-}
-
 const App = () => {
   const { t, i18n } = useTranslation();
   const [amountBorrowed, setAmountBorrowed] = useState(parseFloat(localStorage.getItem("amountBorrowed")) || 0)
@@ -47,12 +41,12 @@ const App = () => {
   const [repayments, setRepayments] = useState(localStorage.getItem("repayments") || 0)
 
   const [minRepayments, setMinRepayments] = useState(localStorage.getItem("minRepayments") || 0)
-  const [daysOfDays, setDaysOfDays] = useState([])
+  const [days, setDays] = useState([])
+  const [interestTotal, setInterestTotal] = useState(0)
+  const [repaymentsTotal, setRepaymentsTotal] = useState(0)
 
   const [changes, setChanges] = useState(JSON.parse(localStorage.getItem("changes")) ||
-    [
-      defaultChange
-    ]
+    [defaultChange]
   )
 
   const handleChangeChange = (i, c) => {
@@ -120,10 +114,13 @@ const App = () => {
     if (repayments === 0) {
       setRepayments(minRepayments.toFixed(2))
     }
-    setDaysOfDays(d)
+    setDays(d)
   }
 
-  const setLanguage = lang => i18n.changeLanguage(lang);
+  const handleInterestTotalChange = i => setInterestTotal(i)
+  const handleRepaymentsTotalChange = i => setRepaymentsTotal(i)
+
+  const setLanguage = lang => i18n.changeLanguage(lang)
 
   // favicon font is Kreon (https://fonts.google.com/specimen/Kreon)
 
@@ -136,6 +133,8 @@ const App = () => {
     handleRepaymentsChange,
     handleResetClick,
     handleDaysChange,
+    handleInterestTotalChange,
+    handleRepaymentsTotalChange,
     addNewChange,
     handleChangeChange
   }
@@ -169,7 +168,9 @@ const App = () => {
               <Home
                 inputs={inputs}
                 minRepayments={minRepayments}
-                daysOfDays={daysOfDays}
+                days={days}
+                interestTotal={interestTotal}
+                repaymentsTotal={repaymentsTotal}
                 simFunctions={simFunctions}
               />
             </Route>

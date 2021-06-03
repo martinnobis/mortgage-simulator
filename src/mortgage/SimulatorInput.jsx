@@ -31,8 +31,10 @@ const SimulatorInput = (props) => {
             generateDays(
                 props.amountBorrowed, props.rate, props.term, props.repaymentFreq, props.repayments, props.startDate
             ).then(
-                (days) => {
-                    props.handleDaysChange(days);
+                ({ days, interestTotal, repaymentsTotal }) => {
+                    props.handleDaysChange(days)
+                    props.handleInterestTotalChange(interestTotal)
+                    props.handleRepaymentsTotalChange(repaymentsTotal)
                     setSimulating(false)
                 })
         }

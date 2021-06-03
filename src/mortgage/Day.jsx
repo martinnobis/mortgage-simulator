@@ -5,10 +5,21 @@ import Col from '../../node_modules/react-bootstrap/Col'
 
 import { FiPlus, FiMinus } from 'react-icons/fi';
 
-const locale = "en-US"
-const formatCurrency = Intl.NumberFormat(locale, { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 2 }).format
+import { formatCurrency } from "./utils"
 
 const pStyle = { "marginTop": ".5em", "marginBottom": ".5em" }
+
+const pStyleUp = {
+    ...pStyle,
+    fontWeight: "bold",
+    color: "#E8453F"
+}
+
+const pStyleDown = {
+    ...pStyle,
+    fontWeight: "bold",
+    color: "#1A9A92"
+}
 
 const Day = (props) => {
     return (
@@ -30,8 +41,20 @@ const Day = (props) => {
                 <p style={{ "fontFamily": "Kreon" }}>Payments</p>
                 {
                     props.payments.map((e, i) => {
-                        if (e > 0) { return <p key={i} className="change-up" style={pStyle}><FiPlus />{formatCurrency(Math.abs(e / 100))} (interest)</p> }
-                        else { return <p key={i} className="change-down" style={pStyle}><FiMinus />{formatCurrency(Math.abs(e / 100))} (repayment)</p> }
+                        if (e.amount > 0) {
+                            return (
+                                <p key={i} style={pStyleUp}>
+                                    <span><FiPlus />{formatCurrency(Math.abs(e.amount / 100))} ({e.name})</span>
+                                </p>
+                            )
+                        }
+                        else {
+                            return (
+                                <p key={i} style={pStyleDown}>
+                                    <span><FiMinus />{formatCurrency(Math.abs(e.amount / 100))} ({e.name}) </span>
+                                </p>
+                            )
+                        }
                     })
                 }
             </Col>
