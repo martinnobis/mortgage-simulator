@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { emailMailto } from "./../utils"
-
 const AcceptableUse = () => {
     return (
         <div>
